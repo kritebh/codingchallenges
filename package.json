@@ -1,0 +1,18 @@
+{
+  "name": "coding-challenges",
+  "version": "1.0.0",
+  "description": "This challenge is to build your own version of the Unix command line tool wc!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ccwc": "bin/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
+}
