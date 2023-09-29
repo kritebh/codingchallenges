@@ -8,7 +8,6 @@ const {
   calculateChar,
   calculateLine,
   calculateWord,
-  calculateFromString,
 } = require("../utils/calculate.js");
 
 let keys = Object.keys(arg);
@@ -22,13 +21,12 @@ keys.forEach((k) => (k !== "_" ? (flag = k) : ""));
 -m => calculate character
 */
 
-
 if (keys.length === 1 && arg._.length === 1) {
   //only file path received
   let filePath = arg._.at(0);
   calculateByte(filePath);
   calculateLine(filePath);
-  calculateWord(filePath, true);
+  calculateWord(filePath,true);
 } else if (keys.length === 2 && arg._.length === 0) {
   if (typeof arg[flag] === "string") {
     let filePath = arg[flag];
@@ -45,7 +43,7 @@ if (keys.length === 1 && arg._.length === 1) {
 
   //handle input from terminal
   if (typeof arg[flag] === "boolean") {
-    process.stdin.setEncoding("utf-8");
+    process.stdin.setEncoding("utf8");
     let inputData = "";
 
     process.stdin.on("data", (chunk) => {
@@ -53,18 +51,18 @@ if (keys.length === 1 && arg._.length === 1) {
     });
 
     process.stdin.on("end", () => {
+      fs.writeFileSync(".ccwc", inputData);
+
       if (flag === "c") {
-        console.log(calculateFromString(inputData, "c").bytes);
+        calculateByte(".ccwc");
       } else if (flag === "l") {
-        console.log(calculateFromString(inputData, "l").lines);
+        calculateLine(".ccwc");
       } else if (flag === "w") {
-        console.log(calculateFromString(inputData, "w").words);
+        calculateWord(".ccwc");
       } else if (flag === "m") {
-        console.log(calculateFromString(inputData, "m").character);
-      } else {
-        let { bytes, words, lines } = calculateFromString(inputData);
-        console.log(bytes, words, lines);
+        calculateChar(".ccwc");
       }
+      fs.unlinkSync(".ccwc");
     });
   }
 } else {
